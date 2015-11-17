@@ -1,0 +1,40 @@
+{
+  "name": "react-hello",
+  "version": "0.0.1",
+  "description": "basic react app with ES6 & webpack",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node src/server/index.js",
+    "postinstall": "webpack --config config/webpack.js",
+    "webpack": "webpack --config config/webpack.js",
+    "webpack-watch": "webpack --config config/webpack.js --watch --colors"
+  },
+  "author": "jonniedarko",
+  "license": "MIT",
+  "devDependencies": {
+    "babel": "^6.1.18",
+    "babel-core": "^6.1.21",
+    "babel-loader": "^6.1.0",
+    "babel-preset-es2015": "^6.1.18",
+    "babel-preset-react": "^6.1.18",
+    "react-addons-test-utils": "^0.14.2",
+    "webpack": "^1.12.6"
+  },
+  "jest": {
+    "scriptPreprocessor": "./node_modules/babel-jest",
+    "unmockedModulePathPatterns": [
+      "react"
+    ],
+    "testPathDirs": [
+      "./src/app",
+      "./src/client"
+    ]
+  },
+  "dependencies": {
+    "debug": "^2.2.0",
+    "express": "^4.13.3",
+    "react": "^0.14.2",
+    "react-dom": "^0.14.2"
+  }
+}
