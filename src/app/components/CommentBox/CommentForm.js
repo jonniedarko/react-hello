@@ -1,13 +1,13 @@
 import React from 'react'
-import TextInput from '../inputs/text.input'
-
+//import TextInput from '../inputs/text.input'
+//<TextInput required placeholder="Name" />
 class CommentForm extends React.Component {
 
 	render(){
 		return (
 			<div className="commentForm">
 				<form className="commentForm" onSubmit={this.submitComment.bind(this)}>
-			        <TextInput required placeholder="Name" />
+			        <input type="text" placeholder="Your name" ref ="author"/>
 			        <input type="text" placeholder="Say something..." ref="text"/>
 			        <input type="submit" value="Post" />
     			</form>
@@ -26,4 +26,3 @@ class CommentForm extends React.Component {
 }
 
 export default CommentForm;
-//<input type="text" placeholder="Your name" ref ="author"/>
