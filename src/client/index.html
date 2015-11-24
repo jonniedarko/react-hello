@@ -3,14 +3,79 @@
 <head lang="en">
   <meta charset="UTF-8">
   <title>My App</title>
-
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
   <link href="styles/main.css" rel="stylesheet" />
+  <style>
+  body {
+		  background-color: #eee;
+		  font-family: "Open Sans", Calibri, Candara, Arial, sans-serif;
+		  min-height: 100vh;
+	  }
+	  .container {
+		  max-width: 50rem;
+		  margin-right: auto;
+		  margin-left: auto;
+		  padding: 2rem;
+	  }
+	  .mt1 {
+		  margin-top: 1rem;
+	  }
+	  .align-right {
+		  text-align: right;
+	  }
+	  .mouse-pointer {
+		  cursor: pointer;
+	  }
+  </style>
 </head>
 <body>
-  <!--<div id="app"></div>-->
+ <div id="app"></div>
   <div id="productTable"></div>
 
   <script src="bundle.js"></script>
+
+
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+  <script >
+  (function() {
+(function($) {
+  'use strict';
+  $.fn.paperCollapse = function(options) {
+	var settings;
+	settings = $.extend({}, $.fn.paperCollapse.defaults, options);
+	$(this).find('.collapse-card__heading').add(settings.closeHandler).click(function() {
+	  if ($(this).closest('.collapse-card').hasClass('active')) {
+		settings.onHide.call(this);
+		$(this).closest('.collapse-card').removeClass('active');
+		$(this).closest('.collapse-card').find('.collapse-card__body').stop().slideUp(settings.animationDuration, settings.onHideComplete);
+	  } else {
+		settings.onShow.call(this);
+		$(this).closest('.collapse-card').addClass('active');
+		$(this).closest('.collapse-card').find('.collapse-card__body').stop().slideDown(settings.animationDuration, settings.onShowComplete);
+	  }
+	});
+	return this;
+  };
+  $.fn.paperCollapse.defaults = {
+	animationDuration: 400,
+	easing: 'swing',
+	closeHandler: '.pcollapse-card__close_handler',
+	onShow: function() {},
+	onHide: function() {},
+	onShowComplete: function() {},
+	onHideComplete: function() {}
+  };
+})(jQuery);
+
+}).call(this);
+
+//$(function () {
+  //$('.collapse-card').paperCollapse()
+//})
+  </script>
+
+
 </body>
 </html>
 
