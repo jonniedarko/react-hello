@@ -47,12 +47,12 @@ export class AccordionItem extends React.Component{
 		const item = this.props.item;
 		const stateStyle = this.state.active ?
 							styles.active : styles.inactive;
-		
+
 		return (
 			<section className={this.state.active ? 'collapse-card active': 'collapse-card'}>
 				<div className={this.state.active ? 'collapse-card__heading active': 'collapse-card__heading'} onClick={this.toggle}>
 
-						  {itemHeader(item)}
+						  {itemHeader(item, this.state.active)}
 				{ item.error ?
 				  (<div className="indicator">
 					  !
@@ -89,6 +89,7 @@ export class Accordion extends React.Component{
 
 	render() {
 		const items = this.props.items;
+		const createListHeader = this.props.listHeader;
 		const createItemHeader = this.props.itemHeader;
 		const createItemContent = this.props.itemContent;
 		const createHeader = this.props.heading;
@@ -97,6 +98,9 @@ export class Accordion extends React.Component{
 							styles.active : styles.inactive
 
 		let AccordionItems = []
+		if(createListHeader){
+			AccordionItems.push(createListHeader());
+		}
 
 		items.forEach(function(item, index){
 			var itemKey = item[key] ? item[key] : index;

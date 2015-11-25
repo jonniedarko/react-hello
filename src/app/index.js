@@ -262,19 +262,67 @@ var data = [
         }
 
 ];
-
+var openCloseStyle= {
+	position: 'relative',
+	paddingTop:'14px'
+}
 
 var MyListView = React.createClass({
+	getInitialState: function (){
+			return {data: data, filteredData: data}
+	},
+	sortBy: function(key){
 
-	createHeader: function(item){
+		var sortedArray = this.state.data.slice(0);
+		sortedArray.sort(function(a, b){
+			return a[key] > b[key];
+		})
+		this.state.filteredData = sortedArray;
+	},
+	createListHeader: function(){
+		return(
+			<section className='collapse-card list-head'>
+				<div className='collapse-card__heading list-head'>
+					<div className="grid">
+
+					<div className="row row-sm">
+						<div className="padder" />
+						<div className="col heading" onClick={this.sortBy('id')}> id </div>
+						<div className="col heading"> name </div>
+						<div className="col heading"> start date </div>
+						<div className="col heading"> end date</div>
+						<div className="col heading"> labels</div>
+						<div className="col heading"> status</div>
+					</div>
+				</div>
+			</div>
+
+			</section>
+		)
+
+	},
+
+	createHeader: function(item, isOpen){
 		return (
 			<div className="grid">
 
 			<div className="row row-sm">
+				<div className="open" style={openCloseStyle}>
+					{(function(){
+						debugger;
+						if(isOpen){
+							return (<i className="fa fa-minus"></i>);
+						}else{
+							return (<i className="fa fa-plus"></i>);
+						}
+
+					}()
+					)}
+				</div>
 				<div className="col"> {item.short_code} </div>
 				<div className="col"> {item.name} </div>
 				<div className="col"> {item.start_date} </div>
-				<div className="col"> {item.end_date} </div>
+				<div className="col"> {item.end_date || 'Unlimited'} </div>
 				<div className="col"> {item.labels}</div>
 				<div className="col"> {item.status}</div>
 			</div>
@@ -288,36 +336,80 @@ var MyListView = React.createClass({
 			<div className="item-content">
 				<div className="item-content-main">
 					<div className="campaign_info">
-						<label>Description </label><span> {item.description || "none"}</span>
+						<div className="description-container">
+							<label>Description </label><span> {item.description || "none"}</span>
+						</div>
+
+						<div className="labels">
+							<label>Labels: </label>
+							<span className="label-list">
+								<span className="label-item">
+									label 1
+								</span>
+								<span className="label-item">
+									label 1
+								</span>
+								<span className="label-item">
+									label 1
+								</span>
+								<span className="label-item">
+									label 1
+								</span>
+							</span>
+						</div>
 					</div>
 					<div className="campaign_actions">
-						<a id="activateLink" className="action">
-							<div className="circle play"></div>
+						<div id="activateLink" className="action">
+							<span className="fa-stack fa-lg">
+							  <i className="fa fa-circle fa-stack-2x"></i>
+							  <i className="fa fa-info fa-stack-1x fa-inverse"></i>
+							</span>
+							<div className="text">Details</div>
+						</div>
+						<div id="activateLink" className="action">
+							<span className="fa-stack fa-lg">
+								<i className="fa fa-circle fa-stack-2x"></i>
+								<i className="fa fa-play fa-stack-1x fa-inverse"></i>
+							</span>
 							<div className="text">Activate</div>
-						</a>
-						<a id="editLink" className="action">
-							<div className="circle edit"></div>
+						</div>
+						<div id="editLink" className="action">
+							<span className="fa-stack fa-lg">
+								<i className="fa fa-circle fa-stack-2x"></i>
+								<i className="fa fa-pencil fa-stack-1x fa-inverse"></i>
+							</span>
 							<div className="text">Edit</div>
-						</a>
-						<a id="deleteLink" className="action">
-							<div className="circle archive"></div>
+						</div>
+						<div id="deleteLink" className="action">
+							<span className="fa-stack fa-lg">
+								<i className="fa fa-circle fa-stack-2x"></i>
+								<i className="fa fa-archive fa-stack-1x fa-inverse"></i>
+							</span>
 							<div className="text">Archive</div>
 
-							</a>
+							</div>
 					</div>
 
 				</div>
 				<div className="item-content-foot">
-					Blah
+					<div className="budget-info-item">
+						<label className="budget-info-label">Budget:</label>
+						<span className="budget-info-amount">$1999 (total)</span>
+					</div>
+					<div className="budget-info-item">
+						<label className="budget-info-label">Budget Spend:</label>
+						<span className="budget-info-amount">N/A</span>
+					</div>
+					<div className="budget-info-item">
+						<label className="budget-info-label">Campaign Spend:</label>
+						<span className="budget-info-amount">$160.00</span>
+					</div>
 				</div>
 			</div>
 
 		);
 	},
 	render: function (){
-
-
-
 		return (
 
 
@@ -325,7 +417,8 @@ var MyListView = React.createClass({
 				heading={this.createListHeading}
 				itemHeader={this.createHeader}
 				itemContent={this.createContent}
-				items={data}
+				listHeader={this.createListHeader}
+				items={this.state.filteredData}
 				itemKey="id" >
 				<div className="grid">
 					<div className="row row-sm">
