@@ -103,7 +103,8 @@ export class Accordion extends React.Component{
 		}
 
 		items.forEach(function(item, index){
-			var itemKey = item[key] ? item[key] : index;
+			var offset = createListHeader ? 1: 0
+			var itemKey = item[key] ? item[key] + offset : index + offset;
 			AccordionItems.push(<AccordionItem item={item} key={itemKey} itemHeader={createItemHeader} itemContent={createItemContent}/>)
 		})
 

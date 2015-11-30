@@ -269,25 +269,40 @@ var openCloseStyle= {
 
 var MyListView = React.createClass({
 	getInitialState: function (){
-			return {data: data, filteredData: data}
+			return {data: data, filteredData: data, sorts:{}}
 	},
 	sortBy: function(key){
 
 		var sortedArray = this.state.data.slice(0);
-		sortedArray.sort(function(a, b){
-			return a[key] > b[key];
-		})
-		this.state.filteredData = sortedArray;
+		var sorts = this.state.sorts;
+		if(!sorts[key] ){
+			sorts[key] =1;
+		} else if(sorts[key] && sorts[key] ==1){
+			sorts[key] = -1;
+		}
+		if(sorts[key] == 1 || sorts[key] == -1){
+			sortedArray.sort(function(a, b){
+				var isLessThen = a[key] < b[key];
+				if(sorts[key] == -1)
+					return !isLessThen;
+
+				return isLessThen;
+			})
+		}else {
+			sorts[key] =0;
+		}
+		var updatedState = {filteredData:sortedArray, sorts: sorts}
+		this.setState(updatedState) ;
 	},
 	createListHeader: function(){
 		return(
-			<section className='collapse-card list-head'>
+			<section key={0} className='collapse-card list-head'>
 				<div className='collapse-card__heading list-head'>
 					<div className="grid">
 
 					<div className="row row-sm">
 						<div className="padder" />
-						<div className="col heading" onClick={this.sortBy('id')}> id </div>
+						<div className="col heading" onClick={this.sortBy.bind(this, 'id')}> id </div>
 						<div className="col heading"> name </div>
 						<div className="col heading"> start date </div>
 						<div className="col heading"> end date</div>
@@ -410,6 +425,7 @@ var MyListView = React.createClass({
 		);
 	},
 	render: function (){
+		console.log('items',this.state.filteredData);
 		return (
 
 
